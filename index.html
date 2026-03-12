@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Athul PR — Sound Professional</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=IBM+Plex+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  /* ── Warm parchment + deep blue-ink palette ── */
+  --bg:      #FDFBD4;
+  --bg2:     #F8F5B8;
+  --bg3:     #F0EC96;
+  --bg4:     #E8E278;
+  --line:    #C8C27A;
+  --dim:     #8A7A30;
+  --mute:    #4A6280;
+  --mid:     #1E3A55;
+  --soft:    #142840;
+  --fg:      #0A1828;
+  --accent:  #1E4D78;
+  --accent2: #0E3058;
+  --accent3: #6A89A7;
+  --accentD: #0A2040;
+  --accentG: rgba(14,48,88,.07);
+  --red:     #8A2020;
+  --w:       1340px;
+}
+html{scroll-behavior:smooth;font-size:17px}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--fg);overflow-x:hidden;cursor:none}
+
+/* ── CURSOR ── */
+#c1,#c2{position:fixed;border-radius:50%;pointer-events:none;z-index:9000;transform:translate(-50%,-50%)}
+#c1{width:7px;height:7px;background:var(--accent);transition:width .15s,height .15s}
+#c2{width:30px;height:30px;border:1.5px solid rgba(30,77,120,.5);transition:width .15s,height .15s}
+.c-big #c1{width:12px;height:12px}
+.c-big #c2{width:46px;height:46px;border-color:var(--accent)}
+
+/* ── NAV ── */
+nav{
+  position:fixed;inset:0 0 auto;z-index:500;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.3rem 3.5rem;
+  background:rgba(253,251,212,.96);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+}
+.nav-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.5rem;letter-spacing:.18em;
+  color:var(--fg);text-decoration:none;
+}
+.nav-logo span{color:var(--accent)}
+.nav-links{display:flex;gap:2.2rem;list-style:none}
+.nav-links a{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--mute);text-decoration:none;transition:color .2s;
+}
+.nav-links a:hover{color:var(--accentD)}
+.nav-cta{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:#fff;background:#0A2040;
+  padding:.55rem 1.4rem;text-decoration:none;
+  transition:background .25s;
+}
+.nav-cta:hover{background:var(--accent)}
+.ham{display:none;flex-direction:column;gap:5px;cursor:pointer}
+.ham span{width:22px;height:1.5px;background:var(--mute);display:block;transition:.3s}
+.mob-nav{
+  display:none;position:fixed;inset:0;z-index:480;
+  background:rgba(253,251,212,.98);
+  flex-direction:column;align-items:center;justify-content:center;gap:2.2rem;
+}
+.mob-nav.on{display:flex}
+.mob-nav a{
+  font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.1em;
+  color:var(--mute);text-decoration:none;transition:color .25s;
+}
+.mob-nav a:hover{color:var(--accentD)}
+.mob-close{
+  position:absolute;top:1.6rem;right:2rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  background:none;border:none;color:var(--mute);cursor:pointer;
+}
+
+/* ─────────────────────────────────────────
+   HERO — centered, full screen
+───────────────────────────────────────── */
+.hero{
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+  text-align:center;
+  padding:8rem 3rem 5rem;
+}
+
+/* Subtle geometric bg pattern */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 40%, rgba(30,77,120,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 20% 80%, rgba(10,32,64,.05) 0%, transparent 60%),
+    radial-gradient(ellipse 30% 30% at 80% 20%, rgba(30,77,120,.05) 0%, transparent 60%);
+  pointer-events:none;
+}
+
+/* Thin horizontal lines across bg */
+.hero::after{
+  content:'';position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    transparent,transparent 44px,
+    rgba(10,32,64,.06) 44px,rgba(10,32,64,.06) 45px
+  );
+  pointer-events:none;
+}
+
+.hero-kicker{
+  font-family:'IBM Plex Mono',monospace;font-size:.72rem;
+  letter-spacing:.32em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:2.2rem;
+  display:flex;align-items:center;justify-content:center;gap:1.1rem;
+  position:relative;z-index:1;
+}
+.hero-kicker::before,.hero-kicker::after{
+  content:'';width:36px;height:1px;background:var(--accent);flex-shrink:0;
+}
+
+h1.hname{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(7rem,18vw,16rem);
+  line-height:.88;letter-spacing:.06em;color:var(--fg);
+  position:relative;z-index:1;
+}
+h1.hname .ghost{
+  display:block;
+  -webkit-text-stroke:2px rgba(56,73,89,.2);
+  color:transparent;
+  transition:color .4s,-webkit-text-stroke .4s;
+}
+h1.hname .ghost:hover{color:var(--fg);-webkit-text-stroke:0px}
+h1.hname .solid{display:block;color:var(--fg)}
+
+.hero-rule{
+  width:100px;height:2px;
+  background:linear-gradient(to right,transparent,var(--accent),transparent);
+  margin:2.2rem auto;
+  position:relative;z-index:1;
+}
+
+.hero-titles{
+  font-family:'IBM Plex Mono',monospace;font-size:.78rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mute);line-height:2.4;
+  position:relative;z-index:1;
+}
+.hero-titles span{color:var(--accent2);margin:0 .6rem}
+
+.hero-loc{
+  margin-top:1.4rem;font-size:1rem;font-weight:400;
+  color:var(--dim);display:flex;align-items:center;justify-content:center;gap:.6rem;
+  font-style:italic;position:relative;z-index:1;
+}
+.hero-loc::before{content:'◎';color:var(--accent);font-style:normal;font-size:.75rem}
+
+.hero-btn{
+  margin-top:3.2rem;display:inline-flex;align-items:center;gap:1rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:#fff;background:#0A2040;
+  padding:1rem 2.4rem;text-decoration:none;
+  border:1.5px solid var(--accentD);
+  transition:background .3s,color .3s,border-color .3s;
+  position:relative;z-index:1;
+}
+.hero-btn:hover{background:var(--accent);border-color:var(--accent)}
+.hero-btn svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round;transition:transform .3s}
+.hero-btn:hover svg{transform:translateX(5px)}
+
+/* scroll indicator */
+.hero-scroll-ind{
+  position:absolute;bottom:2.8rem;left:50%;transform:translateX(-50%);
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;
+  letter-spacing:.22em;text-transform:uppercase;color:var(--dim);
+  display:flex;flex-direction:column;align-items:center;gap:.6rem;
+  z-index:1;
+}
+.hero-scroll-ind::after{
+  content:'';width:1px;height:55px;
+  background:linear-gradient(to bottom,var(--accent),transparent);
+  animation:sci 1.9s ease-in-out infinite;
+}
+@keyframes sci{0%,100%{opacity:.3;transform:scaleY(.4)}50%{opacity:1;transform:scaleY(1)}}
+
+/* Floating accent circles */
+.hero-circle{
+  position:absolute;border-radius:50%;
+  border:1px solid rgba(30,77,120,.12);
+  pointer-events:none;z-index:0;
+}
+
+/* ── SECTION ── */
+.section{
+  padding:7.5rem 3.5rem;position:relative;
+  max-width:var(--w);margin:0 auto;
+  opacity:0;transform:translateY(28px);
+  transition:opacity .7s ease,transform .7s ease;
+}
+.section.vis{opacity:1;transform:translateY(0)}
+.section-full{padding:0;background:var(--bg)}
+.sec-divider{width:100%;height:1px;background:var(--line)}
+
+.sec-head{display:flex;align-items:flex-start;margin-bottom:4rem}
+.sec-n{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:7.5rem;line-height:.85;
+  color:rgba(10,32,64,.05);
+  margin-right:-.4rem;user-select:none;
+}
+.sec-m{padding-top:.3rem;position:relative;z-index:1}
+.sec-tag{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.25em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.45rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.sec-tag::before{content:'';width:18px;height:1px;background:var(--accent)}
+.sec-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(2.6rem,4.5vw,4.2rem);
+  letter-spacing:.04em;color:var(--fg);
+}
+
+/* ── ABOUT ── */
+.about-wrap{display:grid;grid-template-columns:1.15fr 1fr;gap:5rem;align-items:start}
+.about-bio p{
+  font-size:1.08rem;line-height:1.88;color:var(--mid);margin-bottom:1.4rem;font-weight:400;
+}
+.about-bio p:first-child{color:var(--soft);font-size:1.18rem}
+.about-bio strong{color:var(--fg);font-weight:600}
+.collab-list{margin-top:2rem;display:flex;flex-direction:column;gap:.5rem}
+.collab-item{
+  display:flex;justify-content:space-between;align-items:center;
+  padding:.9rem 1.3rem;
+  background:var(--bg2);border:1px solid var(--line);
+  transition:border-color .2s,background .2s;
+}
+.collab-item:hover{border-color:var(--accent);background:var(--bg3)}
+.collab-name{font-size:.96rem;color:var(--fg);font-weight:500}
+.collab-role{
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--mute);
+}
+.about-stats{display:flex;flex-direction:column;gap:1px}
+.astat{
+  background:var(--bg2);padding:1.5rem 1.8rem;
+  border-bottom:1px solid var(--line);transition:background .2s;
+}
+.astat:hover{background:var(--bg3)}
+.astat-val{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:3rem;color:var(--accent);line-height:1;margin-bottom:.3rem;
+}
+.astat-key{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.14em;text-transform:uppercase;color:var(--mute);
+}
+
+/* ── PROJECT GRID ── */
+.proj-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(290px,1fr));
+  gap:1px;background:var(--line);border:1px solid var(--line);
+}
+.proj-card{
+  background:var(--bg);cursor:pointer;position:relative;overflow:hidden;
+  transition:background .25s;
+}
+.proj-card:hover{background:var(--bg2)}
+.proj-poster{
+  width:100%;aspect-ratio:2/3;
+  background:var(--bg3);position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+}
+.proj-poster-inner{
+  width:100%;height:100%;background:var(--bg3);
+  transition:transform .55s ease;
+}
+.proj-card:hover .proj-poster-inner{transform:scale(1.04)}
+.proj-poster-letter{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:6rem;
+  color:rgba(10,24,40,.06);pointer-events:none;
+}
+.proj-poster-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(253,251,212,.95) 0%,rgba(253,251,212,.15) 55%,transparent 100%);
+}
+.proj-card.wide{grid-column:span 2}
+.proj-card.wide .proj-poster{aspect-ratio:21/9}
+.badge-up{
+  position:absolute;top:.8rem;right:.8rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.48rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  background:var(--accent);color:#fff;padding:.26rem .58rem;
+}
+.badge-award{
+  position:absolute;top:.8rem;right:.8rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.46rem;
+  letter-spacing:.09em;text-transform:uppercase;
+  background:var(--red);color:#fff;padding:.22rem .5rem;
+  max-width:110px;text-align:center;line-height:1.4;
+}
+.proj-hover-btn{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;background:rgba(30,77,120,.08);
+}
+.proj-card:hover .proj-hover-btn{opacity:1}
+.phb-inner{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  border:1.5px solid var(--accentD);color:var(--accentD);
+  padding:.5rem 1.2rem;background:rgba(253,251,212,.92);
+}
+.proj-info{padding:1.4rem 1.6rem 1.9rem}
+.proj-cat{
+  font-family:'IBM Plex Mono',monospace;font-size:.54rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.5rem;
+}
+.proj-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.55rem;
+  letter-spacing:.04em;color:var(--fg);margin-bottom:.45rem;line-height:1.1;
+}
+.proj-dir{font-size:.84rem;font-style:italic;color:var(--mute);margin-bottom:.65rem}
+.proj-role{
+  font-family:'IBM Plex Mono',monospace;font-size:.55rem;
+  letter-spacing:.09em;color:var(--mid);line-height:1.75;
+}
+
+/* ── LIST ROWS ── */
+.list-grid{display:flex;flex-direction:column;gap:0}
+.list-row{
+  display:grid;grid-template-columns:2.8rem 1fr 1fr auto;
+  align-items:center;gap:2rem;
+  padding:1.4rem .5rem;
+  border-bottom:1px solid var(--line);
+  cursor:pointer;position:relative;overflow:hidden;
+  transition:padding-left .3s,background .2s;
+}
+.list-row::before{
+  content:'';position:absolute;inset:0;
+  background:rgba(14,48,88,.07);
+  transform:translateX(-101%);transition:transform .38s ease;
+}
+.list-row:hover::before{transform:translateX(0)}
+.list-row:hover{padding-left:1.3rem}
+.lr-n{
+  font-family:'Bebas Neue',sans-serif;font-size:1.4rem;
+  color:var(--dim);position:relative;z-index:1;
+  transition:color .25s;text-align:center;
+}
+.list-row:hover .lr-n{color:var(--accent)}
+.lr-body{position:relative;z-index:1}
+.lr-title{font-size:1.03rem;color:var(--fg);margin-bottom:.22rem;font-weight:500}
+.lr-dir{font-size:.82rem;font-style:italic;color:var(--mute)}
+.lr-role{
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;
+  letter-spacing:.09em;color:var(--mid);line-height:1.75;
+  position:relative;z-index:1;
+}
+.lr-badge{position:relative;z-index:1;text-align:right}
+.lb-award{
+  font-family:'IBM Plex Mono',monospace;font-size:.48rem;
+  letter-spacing:.09em;text-transform:uppercase;
+  background:var(--red);color:#fff;
+  padding:.22rem .5rem;line-height:1.5;display:inline-block;
+}
+.lb-up{
+  font-family:'IBM Plex Mono',monospace;font-size:.48rem;
+  letter-spacing:.09em;text-transform:uppercase;
+  background:var(--accent);color:#fff;padding:.22rem .5rem;display:inline-block;
+}
+
+/* ── TAG CELLS ── */
+.tags-grid{
+  display:flex;flex-wrap:wrap;gap:1px;
+  background:var(--line);border:1px solid var(--line);
+}
+.tag-cell{
+  background:var(--bg);padding:1.8rem 2.1rem;
+  flex:1;min-width:240px;
+  transition:background .25s;position:relative;overflow:hidden;
+}
+.tag-cell::after{
+  content:'';position:absolute;bottom:0;left:0;right:0;height:2px;
+  background:var(--accent);transform:scaleX(0);transform-origin:left;
+  transition:transform .35s;
+}
+.tag-cell:hover{background:var(--bg2)}
+.tag-cell:hover::after{transform:scaleX(1)}
+.tc-label{
+  font-family:'IBM Plex Mono',monospace;font-size:.54rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.55rem;
+}
+.tc-name{font-size:1rem;color:var(--fg);margin-bottom:.38rem;font-weight:500}
+.tc-role{font-size:.84rem;font-style:italic;color:var(--mute)}
+
+/* ── CONTACT ── */
+.contact-wrap{display:grid;grid-template-columns:1.1fr 1fr;gap:6rem;align-items:start}
+.contact-intro{
+  font-size:1.08rem;font-style:italic;color:var(--mid);
+  line-height:1.85;margin-bottom:2.5rem;max-width:440px;
+}
+.contact-email{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(1.7rem,3.2vw,3rem);letter-spacing:.04em;
+  color:var(--fg);text-decoration:none;display:inline-block;
+  border-bottom:2px solid var(--accent);padding-bottom:.12rem;
+  transition:color .25s;
+}
+.contact-email:hover{color:var(--accent)}
+.contact-phone{
+  display:block;margin-top:.9rem;font-size:.96rem;
+  color:var(--mute);font-style:italic;
+}
+.contact-socials{margin-top:2.2rem;display:flex;gap:1.6rem;flex-wrap:wrap}
+.contact-socials a{
+  font-family:'IBM Plex Mono',monospace;font-size:.62rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--mute);text-decoration:none;
+  border-bottom:1px solid var(--line);padding-bottom:.18rem;
+  transition:color .2s,border-color .2s;
+}
+.contact-socials a:hover{color:var(--accentD);border-color:var(--accentD)}
+.avail-box{display:flex;flex-direction:column;gap:1px}
+.avail-row{
+  background:var(--bg2);padding:1.25rem 1.7rem;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid var(--line);transition:background .2s;
+}
+.avail-row:hover{background:var(--bg3)}
+.ar-svc{font-size:1rem;color:var(--fg);font-weight:500}
+.ar-dot{
+  display:flex;align-items:center;gap:.45rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.54rem;
+  letter-spacing:.12em;text-transform:uppercase;color:var(--accent);
+}
+.dot{
+  width:5px;height:5px;border-radius:50%;background:var(--accent);
+  animation:dp 2.2s ease-in-out infinite;
+}
+@keyframes dp{0%,100%{opacity:1}50%{opacity:.15}}
+
+/* ── FOOTER ── */
+footer{
+  padding:2.2rem 3.5rem;background:#0A2040;
+  display:flex;justify-content:space-between;align-items:center;
+}
+footer p{
+  font-family:'IBM Plex Mono',monospace;font-size:.56rem;
+  letter-spacing:.12em;color:rgba(200,195,120,.5);
+}
+.foot-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.1rem;letter-spacing:.18em;color:rgba(200,195,120,.4);
+}
+.foot-logo span{color:var(--accent2)}
+
+/* ── MODAL ── */
+.modal-wrap{
+  position:fixed;inset:0;z-index:900;
+  display:none;align-items:flex-start;justify-content:flex-end;
+}
+.modal-wrap.on{display:flex}
+.modal-backdrop{
+  position:absolute;inset:0;background:rgba(26,37,48,.5);cursor:pointer;
+}
+.modal{
+  position:relative;z-index:1;
+  width:min(640px,100vw);height:100vh;
+  background:var(--bg);border-left:1px solid var(--line);
+  overflow-y:auto;
+  transform:translateX(100%);transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.modal-wrap.on .modal{transform:translateX(0)}
+.modal-topbar{
+  position:sticky;top:0;z-index:10;
+  display:flex;justify-content:space-between;align-items:center;
+  padding:1.1rem 1.9rem;
+  background:var(--bg);border-bottom:1px solid var(--line);
+}
+.modal-topbar-logo{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:1.05rem;letter-spacing:.15em;color:var(--mute);
+}
+.modal-topbar button{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.18em;text-transform:uppercase;
+  background:none;border:1px solid var(--line);
+  color:var(--mute);padding:.38rem .9rem;cursor:pointer;
+  transition:border-color .2s,color .2s;
+}
+.modal-topbar button:hover{border-color:var(--accentD);color:var(--accentD)}
+.modal-poster{
+  width:100%;background:var(--bg3);
+  display:flex;align-items:center;justify-content:center;min-height:260px;overflow:hidden;
+}
+.modal-poster img{width:100%;height:100%;object-fit:cover}
+.modal-poster-ph{
+  width:100%;padding:5rem 2rem;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Bebas Neue',sans-serif;font-size:8rem;
+  color:rgba(10,24,40,.06);
+  background:repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(10,32,64,.02) 20px,rgba(10,32,64,.02) 21px);
+}
+.modal-body{padding:2.3rem 2.3rem 3.2rem}
+.modal-cat{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.22em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.6rem;
+}
+.modal-title{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:2.8rem;letter-spacing:.03em;color:var(--fg);
+  margin-bottom:1.6rem;line-height:1.05;
+}
+.modal-meta{
+  display:flex;flex-direction:column;gap:.7rem;margin-bottom:2rem;
+  padding:1.4rem 1.6rem;background:var(--bg2);border:1px solid var(--line);
+}
+.mm-row{display:flex;gap:1rem;align-items:baseline}
+.mm-k{
+  font-family:'IBM Plex Mono',monospace;font-size:.55rem;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--mute);min-width:70px;
+}
+.mm-v{font-size:.96rem;color:var(--soft);font-weight:500}
+.modal-award{
+  display:flex;align-items:flex-start;gap:.9rem;
+  background:rgba(138,32,32,.06);border:1px solid rgba(138,32,32,.2);
+  padding:1rem 1.4rem;margin-bottom:2rem;
+}
+.modal-award-icon{color:var(--accent);font-size:1rem;margin-top:.1rem}
+.modal-award p{
+  font-family:'IBM Plex Mono',monospace;font-size:.58rem;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--soft);line-height:1.7;
+}
+.modal-desc{
+  font-size:1rem;line-height:1.85;color:var(--mid);margin-bottom:2rem;
+}
+.modal-video{margin-bottom:2rem}
+.modal-video h4{
+  font-family:'IBM Plex Mono',monospace;font-size:.57rem;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:var(--mute);margin-bottom:.8rem;
+}
+.video-wrap{
+  position:relative;width:100%;padding-bottom:56.25%;
+  height:0;overflow:hidden;background:var(--bg3);
+  border:1px solid var(--line);
+}
+.video-wrap iframe{
+  position:absolute;top:0;left:0;width:100%;height:100%;border:none;
+}
+.video-ph{
+  font-family:'IBM Plex Mono',monospace;font-size:.57rem;
+  letter-spacing:.14em;text-transform:uppercase;
+  color:var(--dim);text-align:center;padding:4rem 1rem;
+  width:100%;
+}
+
+/* ── VIDEO CARD GRID ── */
+.vid-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:2px;background:var(--line);border:1px solid var(--line);
+}
+.vid-card{
+  background:var(--bg);cursor:pointer;
+  display:flex;flex-direction:column;
+  overflow:hidden;transition:background .25s;
+}
+.vid-card:hover{background:var(--bg2)}
+.vid-thumb{
+  width:100%;aspect-ratio:16/9;
+  position:relative;overflow:hidden;background:var(--fg);flex-shrink:0;
+}
+.vid-thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform .5s ease;
+}
+.vid-card:hover .vid-thumb img{transform:scale(1.04)}
+.vid-ph-bg{
+  width:100%;height:100%;background:var(--accentD);
+  display:flex;align-items:center;justify-content:center;
+}
+.vid-ph-bg span{
+  font-family:'Bebas Neue',sans-serif;font-size:4rem;
+  color:rgba(253,251,212,.1);letter-spacing:.08em;
+}
+.vid-play-overlay{
+  position:absolute;inset:0;
+  background:rgba(10,20,32,.4);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;transition:opacity .3s;
+}
+.vid-card:hover .vid-play-overlay{opacity:1}
+.vid-play-btn{
+  width:58px;height:58px;border-radius:50%;
+  background:rgba(10,20,32,.65);
+  border:2.5px solid rgba(255,255,255,.85);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .25s,background .25s;
+}
+.vid-play-btn svg{margin-left:4px}
+.vid-card:hover .vid-play-btn{transform:scale(1.1);background:rgba(30,77,120,.8)}
+.vid-award-badge{
+  position:absolute;bottom:.7rem;left:.7rem;
+  font-family:'IBM Plex Mono',monospace;font-size:.46rem;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:var(--red);color:#fff;
+  padding:.24rem .6rem;line-height:1.4;max-width:160px;
+}
+.vid-info{
+  padding:1.2rem 1.5rem 1.6rem;
+  flex:1;display:flex;flex-direction:column;
+}
+.vid-cat{
+  font-family:'IBM Plex Mono',monospace;font-size:.52rem;
+  letter-spacing:.16em;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.3rem;
+}
+.vid-title{
+  font-family:'Bebas Neue',sans-serif;font-size:1.35rem;
+  letter-spacing:.04em;color:var(--fg);line-height:1.1;
+  margin-bottom:.25rem;
+}
+.vid-dir{font-size:.82rem;font-style:italic;color:var(--mute);margin-bottom:.3rem}
+.vid-role{
+  font-family:'IBM Plex Mono',monospace;font-size:.52rem;
+  letter-spacing:.09em;color:var(--mid);margin-top:auto;padding-top:.4rem;
+}
+@media(max-width:600px){
+  .vid-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:400px){
+  .vid-grid{grid-template-columns:1fr}
+}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(22px);transition:opacity .65s ease,transform .65s ease}
+.reveal.vis{opacity:1;transform:translateY(0)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  .about-wrap,.contact-wrap{grid-template-columns:1fr;gap:3.5rem}
+  .proj-card.wide{grid-column:span 1}
+  .proj-card.wide .proj-poster{aspect-ratio:2/3}
+}
+@media(max-width:900px){
+  h1.hname{font-size:clamp(5.5rem,20vw,10rem)}
+}
+@media(max-width:768px){
+  nav{padding:1.1rem 1.4rem}
+  .nav-links,.nav-cta{display:none}
+  .ham{display:flex}
+  .section{padding:5.5rem 1.5rem}
+  .hero{padding:8rem 1.5rem 5rem}
+  footer{flex-direction:column;gap:.8rem;text-align:center}
+  .foot-logo{display:none}
+  .list-row{grid-template-columns:2rem 1fr;gap:1rem}
+  .lr-role,.lr-badge{display:none}
+}
+@media(max-width:560px){
+  .proj-grid{grid-template-columns:1fr 1fr}
+  h1.hname{font-size:clamp(4.5rem,22vw,8rem)}
+}
+@media(max-width:400px){
+  .proj-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="c1"></div><div id="c2"></div>
+
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#">ATHUL <span>PR</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#films">Films</a></li>
+    <li><a href="#shorts">Shorts</a></li>
+    <li><a href="#commercial">Commercial</a></li>
+    <li><a href="#more">More</a></li>
+    <li><a href="#contact" class="nav-cta">Contact</a></li>
+  </ul>
+  <div class="ham" id="ham" onclick="mobOpen()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<div class="mob-nav" id="mobnav">
+  <button class="mob-close" onclick="mobClose()">✕ Close</button>
+  <a href="#about"      onclick="mobClose()">About</a>
+  <a href="#films"      onclick="mobClose()">Feature Films</a>
+  <a href="#shorts"     onclick="mobClose()">Short Films</a>
+  <a href="#commercial" onclick="mobClose()">Commercial</a>
+  <a href="#more"       onclick="mobClose()">More</a>
+  <a href="#contact"    onclick="mobClose()">Contact</a>
+</div>
+
+<!-- ── HERO (centered) ── -->
+<div class="hero">
+  <!-- floating circles -->
+  <div class="hero-circle" style="width:600px;height:600px;top:-200px;right:-150px;opacity:.5"></div>
+  <div class="hero-circle" style="width:300px;height:300px;bottom:100px;left:-80px;opacity:.4"></div>
+  <div class="hero-circle" style="width:150px;height:150px;bottom:200px;right:15%;opacity:.3"></div>
+
+  <div class="hero-kicker">Sound Professional · Kerala, India</div>
+
+  <h1 class="hname">
+    <span class="ghost">ATHUL</span>
+    <span class="solid">PR</span>
+  </h1>
+
+  <div class="hero-rule"></div>
+
+  <div class="hero-titles">
+    Location Sound Recordist
+    <span>·</span>
+    Sound Designer
+    <span>·</span>
+    Audio Post Production
+  </div>
+
+  <div class="hero-loc">Kerala, India — Film &amp; Commercial Production</div>
+
+  <a class="hero-btn" href="#films">
+    View Work
+    <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+  </a>
+
+  <div class="hero-scroll-ind">Scroll</div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- ABOUT -->
+<div class="section-full" id="about">
+<div class="section vis">
+  <div class="sec-head">
+    <div class="sec-n">01</div>
+    <div class="sec-m">
+      <div class="sec-tag">Background</div>
+      <div class="sec-title">About</div>
+    </div>
+  </div>
+  <div class="about-wrap">
+    <div class="about-bio">
+      <p><strong>Athul PR</strong> is a sound professional working in film production, commercials, and audio post-production based in Kerala, India.</p>
+      <p>His work includes <strong>location sound recording</strong>, <strong>sound design</strong>, <strong>FX recording</strong>, and audio post for feature films, short films, and advertising projects. He has collaborated with film directors and production teams across <strong>Malayalam cinema</strong> and independent filmmaking.</p>
+      <p>On set, Athul captures clean dialogue and atmosphere using professional Sound Devices recorders and Sennheiser wireless systems. In post, he delivers immersive audio mixes and designed soundscapes for festival films, commercial productions, and digital platforms.</p>
+      <div class="collab-list">
+        <div class="collab-item reveal"><span class="collab-name">Lijo Jose Pellissery</span><span class="collab-role">Malaikottai Vaaliban</span></div>
+        <div class="collab-item reveal"><span class="collab-name">Mysskin</span><span class="collab-role">Train (Upcoming)</span></div>
+        <div class="collab-item reveal"><span class="collab-name">Krishand</span><span class="collab-role">Purusha Pretham</span></div>
+        <div class="collab-item reveal"><span class="collab-name">Boban Samuel</span><span class="collab-role">Machante Malakha</span></div>
+      </div>
+    </div>
+    <div class="about-stats">
+      <div class="astat reveal"><div class="astat-val">10+</div><div class="astat-key">Feature Films</div></div>
+      <div class="astat reveal"><div class="astat-val">8+</div><div class="astat-key">Short Films &amp; Sound Design</div></div>
+      <div class="astat reveal"><div class="astat-val">15+</div><div class="astat-key">Commercial &amp; Ad Projects</div></div>
+      <div class="astat reveal"><div class="astat-val">2</div><div class="astat-key">Award-Winning Projects</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- FEATURE FILMS -->
+<div class="section-full" id="films">
+<div class="section vis">
+  <div class="sec-head">
+    <div class="sec-n">02</div>
+    <div class="sec-m">
+      <div class="sec-tag">Cinema</div>
+      <div class="sec-title">Feature Films</div>
+    </div>
+  </div>
+
+  <div class="proj-grid">
+    <div class="proj-card wide reveal" onclick="openModal('train')">
+      <div class="proj-poster">
+        <div class="proj-poster-inner"></div>
+        <div class="proj-poster-letter">T</div>
+        <div class="proj-poster-overlay"></div>
+        <span class="badge-up">Upcoming</span>
+        <div class="proj-hover-btn"><div class="phb-inner">View Details</div></div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-cat">Feature Film · Tamil</div>
+        <div class="proj-title">Train</div>
+        <div class="proj-dir">Dir. Mysskin</div>
+        <div class="proj-role">Location Sound Recording · FX Recording · Sound Effects Assistant</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" onclick="openModal('malaikottai')">
+      <div class="proj-poster">
+        <div class="proj-poster-inner"></div>
+        <div class="proj-poster-letter">M</div>
+        <div class="proj-poster-overlay"></div>
+        <div class="proj-hover-btn"><div class="phb-inner">View Details</div></div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-cat">Feature Film · Malayalam</div>
+        <div class="proj-title">Malaikottai Vaaliban</div>
+        <div class="proj-dir">Dir. Lijo Jose Pellissery</div>
+        <div class="proj-role">Location Sound Recording</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" onclick="openModal('veekam')">
+      <div class="proj-poster">
+        <div class="proj-poster-inner"></div>
+        <div class="proj-poster-letter">V</div>
+        <div class="proj-poster-overlay"></div>
+        <div class="proj-hover-btn"><div class="phb-inner">View Details</div></div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-cat">Feature Film · Malayalam</div>
+        <div class="proj-title">Veekam</div>
+        <div class="proj-dir">Dir. Sagar Hari</div>
+        <div class="proj-role">Location Sound Recording</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" onclick="openModal('bola')">
+      <div class="proj-poster">
+        <div class="proj-poster-inner"></div>
+        <div class="proj-poster-letter">B</div>
+        <div class="proj-poster-overlay"></div>
+        <div class="proj-hover-btn"><div class="phb-inner">View Details</div></div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-cat">Feature Film · Malayalam</div>
+        <div class="proj-title">Bola Golam</div>
+        <div class="proj-dir">Dir. Muhammed Junaise Babu</div>
+        <div class="proj-role">Location Sound Recording</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" onclick="openModal('class')">
+      <div class="proj-poster">
+        <div class="proj-poster-inner"></div>
+        <div class="proj-poster-letter">C</div>
+        <div class="proj-poster-overlay"></div>
+        <div class="proj-hover-btn"><div class="phb-inner">View Details</div></div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-cat">Feature Film · Malayalam</div>
+        <div class="proj-title">Class by a Soldier</div>
+        <div class="proj-dir">Dir. Chinmayi Nair &amp; Muhammed Junaise Babu</div>
+        <div class="proj-role">Location Sound Recording</div>
+      </div>
+    </div>
+
+    <div class="proj-card reveal" onclick="openModal('machante')">
+      <div class="proj-poster">
+        <div class="proj-poster-inner"></div>
+        <div class="proj-poster-letter">M</div>
+        <div class="proj-poster-overlay"></div>
+        <div class="proj-hover-btn"><div class="phb-inner">View Details</div></div>
+      </div>
+      <div class="proj-info">
+        <div class="proj-cat">Feature Film · Malayalam</div>
+        <div class="proj-title">Machante Malakha</div>
+        <div class="proj-dir">Dir. Boban Samuel</div>
+        <div class="proj-role">Location Sound Recording</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-top:2px">
+  <div class="list-grid">
+    <div class="list-row reveal" onclick="openModal('janvee')">
+      <div class="lr-n">—</div>
+      <div class="lr-body"><div class="lr-title">Janvee</div><div class="lr-dir">Patch Shoot</div></div>
+      <div class="lr-role">Location Sound Recording</div>
+      <div class="lr-badge"></div>
+    </div>
+    <div class="list-row reveal" onclick="openModal('kirukkan')">
+      <div class="lr-n">—</div>
+      <div class="lr-body"><div class="lr-title">Kirukkan</div><div class="lr-dir">Patch Shoot</div></div>
+      <div class="lr-role">Location Sound Recording</div>
+      <div class="lr-badge"></div>
+    </div>
+    <div class="list-row reveal" onclick="openModal('moonwalk')">
+      <div class="lr-n">—</div>
+      <div class="lr-body"><div class="lr-title">Moonwalk</div><div class="lr-dir">Patch Shoot</div></div>
+      <div class="lr-role">Location Sound Recording</div>
+      <div class="lr-badge"></div>
+    </div>
+    <div class="list-row reveal" onclick="openModal('purusha')">
+      <div class="lr-n">—</div>
+      <div class="lr-body"><div class="lr-title">Purusha Pretham</div><div class="lr-dir">Dir. Krishand · Patch Shoot</div></div>
+      <div class="lr-role">Location Sound Recording</div>
+      <div class="lr-badge"></div>
+    </div>
+  </div>
+  </div>
+</div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- SHORT FILMS -->
+<div class="section-full" id="shorts">
+<div class="section vis">
+  <div class="sec-head">
+    <div class="sec-n">03</div>
+    <div class="sec-m">
+      <div class="sec-tag">Short Films &amp; Post</div>
+      <div class="sec-title">Sound Design</div>
+    </div>
+  </div>
+  <div class="vid-grid">
+
+    <div class="vid-card reveal" onclick="openModal('themis')">
+      <div class="vid-thumb">
+        <img src="https://img.youtube.com/vi/ouKeAFKP3C4/maxresdefault.jpg" alt="Themis" loading="lazy">
+        <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+        <div class="vid-award-badge">Best Sound · OBM Festival</div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-cat">Short Film · 2024</div>
+        <div class="vid-title">Themis</div>
+        <div class="vid-dir">Dir. Asish Anirudhan</div>
+        <div class="vid-role">Sound Design</div>
+      </div>
+    </div>
+
+    <div class="vid-card reveal" onclick="openModal('buoyant')">
+      <div class="vid-thumb">
+        <img src="https://img.youtube.com/vi/MM3_ZuKbVjc/maxresdefault.jpg" alt="The Buoyant" loading="lazy">
+        <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+        <div class="vid-award-badge">IDSFFK Best Campus Film</div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-cat">Short Documentary</div>
+        <div class="vid-title">The Buoyant</div>
+        <div class="vid-dir">Short Documentary</div>
+        <div class="vid-role">Sound Design · Mix</div>
+      </div>
+    </div>
+
+    <div class="vid-card reveal" onclick="openModal('adyam')">
+      <div class="vid-thumb">
+        <img src="https://img.youtube.com/vi/DGD-j2WV-nA/maxresdefault.jpg" alt="Adyam Joli" loading="lazy">
+        <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-cat">Web Series · Episode 2</div>
+        <div class="vid-title">Adyam Joli Pinne Kalyanam</div>
+        <div class="vid-dir">Dir. Jisma Vimal</div>
+        <div class="vid-role">Sound Design</div>
+      </div>
+    </div>
+
+    <div class="vid-card reveal" onclick="openModal('mazha')">
+      <div class="vid-thumb">
+        <img src="https://img.youtube.com/vi/pzM0fDM7bzw/maxresdefault.jpg" alt="Mazha" loading="lazy">
+        <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-cat">Short Film · SIFA</div>
+        <div class="vid-title">Mazha</div>
+        <div class="vid-dir">Dir. Rishi Sivakumar</div>
+        <div class="vid-role">Sound Design</div>
+      </div>
+    </div>
+
+    <div class="vid-card reveal" onclick="openModal('bgaa')">
+      <div class="vid-thumb">
+        <img src="https://img.youtube.com/vi/aNReF9YVQo8/maxresdefault.jpg" alt="Be A Good Actor" loading="lazy">
+        <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-cat">Short Film · SIFA</div>
+        <div class="vid-title">Be A Good Actor</div>
+        <div class="vid-dir">Dir. Sajan Aloomoottil</div>
+        <div class="vid-role">Sound Design</div>
+      </div>
+    </div>
+
+    <div class="vid-card reveal" onclick="openModal('chulli')">
+      <div class="vid-thumb">
+        <div class="vid-ph-bg"><span>CHULLI</span></div>
+        <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-cat">Short Film · 2025</div>
+        <div class="vid-title">Chulli</div>
+        <div class="vid-dir">2025</div>
+        <div class="vid-role">Sound Design · 5.1 Mix</div>
+      </div>
+    </div>
+
+    <div class="vid-card reveal" onclick="openModal('shavapetti')">
+      <div class="vid-thumb">
+        <div class="vid-ph-bg"><span>SHAVAPETTI</span></div>
+        <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+      </div>
+      <div class="vid-info">
+        <div class="vid-cat">Short Film · Unreleased</div>
+        <div class="vid-title">Oru Shavapetti Kadha</div>
+        <div class="vid-dir">Dir. Prathyush PV</div>
+        <div class="vid-role">Sound Design</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- COMMERCIAL -->
+<div class="section-full" id="commercial">
+<div class="section vis">
+  <div class="sec-head">
+    <div class="sec-n">04</div>
+    <div class="sec-m">
+      <div class="sec-tag">Advertising</div>
+      <div class="sec-title">Commercial &amp; Ad Films</div>
+    </div>
+  </div>
+  <div class="tags-grid">
+    <div class="tag-cell reveal"><div class="tc-label">Commercial</div><div class="tc-name">Malayalam Manorama</div><div class="tc-role">Recording</div></div>
+    <div class="tag-cell reveal"><div class="tc-label">Commercial</div><div class="tc-name">MyG</div><div class="tc-role">Recording</div></div>
+    <div class="tag-cell reveal"><div class="tc-label">TVC</div><div class="tc-name">Mr Butler Fizzo</div><div class="tc-role">Sound Edit · Premix</div></div>
+    <div class="tag-cell reveal"><div class="tc-label">Commercial</div><div class="tc-name">Kalyan Silks – Adi Sale</div><div class="tc-role">Sync Sound</div></div>
+    <div class="tag-cell reveal"><div class="tc-label">Ad Film</div><div class="tc-name">Kerala Blasters Battery AI Ad</div><div class="tc-role">Recording</div></div>
+    <div class="tag-cell reveal"><div class="tc-label">Commercial</div><div class="tc-name">Hyra Food Products</div><div class="tc-role">Recording</div></div>
+    <div class="tag-cell reveal"><div class="tc-label">TVC</div><div class="tc-name">Peps TVC</div><div class="tc-role">Recording</div></div>
+    <div class="tag-cell reveal"><div class="tc-label">Commercial</div><div class="tc-name">Pauls Food</div><div class="tc-role">Recording</div></div>
+  </div>
+  <div style="margin-top:2.5rem">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);padding-bottom:.9rem;border-bottom:1px solid var(--line);margin-bottom:2px;display:flex;align-items:center;gap:.6rem">
+      <span style="width:16px;height:1px;background:var(--accent);display:block"></span>Digital Ads
+    </div>
+    <div class="tags-grid">
+      <div class="tag-cell reveal"><div class="tc-label">Digital</div><div class="tc-name">Al Taza</div><div class="tc-role">Audio Post Production</div></div>
+      <div class="tag-cell reveal"><div class="tc-label">Digital</div><div class="tc-name">Popular Gold</div><div class="tc-role">Recording</div></div>
+      <div class="tag-cell reveal"><div class="tc-label">Digital</div><div class="tc-name">Beyond Burg</div><div class="tc-role">Recording</div></div>
+    </div>
+  </div>
+
+  <!-- TVS featured video -->
+  <div style="margin-top:2.5rem">
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);padding-bottom:.9rem;border-bottom:1px solid var(--line);margin-bottom:2px;display:flex;align-items:center;gap:.6rem">
+      <span style="width:16px;height:1px;background:var(--accent);display:block"></span>Featured Video
+    </div>
+    <div class="vid-grid" style="grid-template-columns:repeat(auto-fill,minmax(340px,1fr))">
+      <div class="vid-card reveal" onclick="openModal('tvsking')">
+        <div class="vid-thumb">
+          <img src="https://img.youtube.com/vi/ukFt5mO0hSM/maxresdefault.jpg" alt="TVS King" loading="lazy">
+          <div class="vid-play-overlay"><div class="vid-play-btn"><svg viewBox="0 0 24 24" fill="white" width="22" height="22"><polygon points="6,3 20,12 6,21"/></svg></div></div>
+        </div>
+        <div class="vid-info">
+          <div class="vid-cat">Commercial · TVC</div>
+          <div class="vid-title">TVS King – Journeys With King</div>
+          <div class="vid-dir">TVS Motor Company</div>
+          <div class="vid-role">Recording</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- MORE -->
+<div class="section-full" id="more">
+<div class="section vis">
+  <div class="sec-head">
+    <div class="sec-n">05</div>
+    <div class="sec-m">
+      <div class="sec-tag">Additional Work</div>
+      <div class="sec-title">FX, Docs &amp; Cleanup</div>
+    </div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:3.5rem">
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem"><span style="width:16px;height:1px;background:var(--accent);display:block"></span>FX Recording</div>
+      <div class="list-grid">
+        <div class="list-row reveal" onclick="openModal('swargam')">
+          <div class="lr-n">01</div>
+          <div class="lr-body"><div class="lr-title">Swargam</div><div class="lr-dir">2024</div></div>
+          <div class="lr-role">FX Recording</div><div class="lr-badge"></div>
+        </div>
+        <div class="list-row reveal" onclick="openModal('chimera')">
+          <div class="lr-n">02</div>
+          <div class="lr-body"><div class="lr-title">Chimera</div><div class="lr-dir">Short Film · 2023</div></div>
+          <div class="lr-role">FX Recording</div><div class="lr-badge"></div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem"><span style="width:16px;height:1px;background:var(--accent);display:block"></span>Interview &amp; Documentary</div>
+      <div class="tags-grid" style="grid-template-columns:1fr">
+        <div class="tag-cell reveal"><div class="tc-label">Promotional</div><div class="tc-name">Mahaveeryar Promotion</div><div class="tc-role">Interview Recording</div></div>
+        <div class="tag-cell reveal"><div class="tc-label">Corporate</div><div class="tc-name">MSCS Cooperative</div><div class="tc-role">Documentary Recording</div></div>
+        <div class="tag-cell reveal"><div class="tc-label">Brand</div><div class="tc-name">TVS</div><div class="tc-role">Interview Recording</div></div>
+      </div>
+    </div>
+    <div>
+      <div style="font-family:'IBM Plex Mono',monospace;font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.2rem;display:flex;align-items:center;gap:.6rem"><span style="width:16px;height:1px;background:var(--accent);display:block"></span>Audio Cleanup</div>
+      <div class="tags-grid" style="grid-template-columns:1fr">
+        <div class="tag-cell reveal"><div class="tc-label">Restoration</div><div class="tc-name">Dhanya Varma Interview</div><div class="tc-role">Audio Cleanup &amp; Restoration</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- CONTACT -->
+<div class="section-full" id="contact">
+<div class="section vis">
+  <div class="sec-head">
+    <div class="sec-n">06</div>
+    <div class="sec-m">
+      <div class="sec-tag">Get In Touch</div>
+      <div class="sec-title">Contact</div>
+    </div>
+  </div>
+  <div class="contact-wrap">
+    <div>
+      <p class="contact-intro">Available for location sound recording, sound design, FX recording, and audio post-production. Based in Kerala, India — open to projects across India and remote post work worldwide.</p>
+      <a class="contact-email" href="/cdn-cgi/l/email-protection#b9d8cdd1ccd5c9cbf9dcd4d8d0d597dad6d4"><span class="__cf_email__" data-cfemail="eb8a9f839e879b99ab8e868a8287c5888486">[email&#160;protected]</span></a>
+      <span class="contact-phone">+91 XXXXX XXXXX</span>
+      <div class="contact-socials">
+        <a href="#" target="_blank">Instagram ↗</a>
+        <a href="#" target="_blank">IMDb ↗</a>
+        <a href="#" target="_blank">LinkedIn ↗</a>
+      </div>
+    </div>
+    <div class="avail-box">
+      <div class="avail-row"><span class="ar-svc">Location Sound Recording</span><span class="ar-dot"><span class="dot"></span>Available</span></div>
+      <div class="avail-row"><span class="ar-svc">Sound Design</span><span class="ar-dot"><span class="dot"></span>Available</span></div>
+      <div class="avail-row"><span class="ar-svc">FX Recording</span><span class="ar-dot"><span class="dot"></span>Available</span></div>
+      <div class="avail-row"><span class="ar-svc">Audio Post Production</span><span class="ar-dot"><span class="dot"></span>Available</span></div>
+      <div class="avail-row"><span class="ar-svc">Dolby Atmos Mix</span><span class="ar-dot"><span class="dot"></span>Available</span></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer>
+  <p>© 2026 Athul PR · All rights reserved</p>
+  <div class="foot-logo">ATHUL <span>PR</span></div>
+  <p>Location Sound · Sound Design · Audio Post · Kerala, India</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-wrap" id="modalWrap">
+  <div class="modal-backdrop" onclick="closeModal()"></div>
+  <div class="modal" id="modal">
+    <div class="modal-topbar">
+      <span class="modal-topbar-logo">ATHUL PR</span>
+      <button onclick="closeModal()">✕ Close</button>
+    </div>
+    <div id="modalContent"></div>
+  </div>
+</div>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── CURSOR ── */
+const c1=document.getElementById('c1'),c2=document.getElementById('c2');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY});
+(function t(){
+  c1.style.left=mx+'px';c1.style.top=my+'px';
+  rx+=(mx-rx)*.12;ry+=(my-ry)*.12;
+  c2.style.left=rx+'px';c2.style.top=ry+'px';
+  requestAnimationFrame(t);
+})();
+document.querySelectorAll('a,button,.proj-card,.list-row,.tag-cell,.collab-item').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('c-big'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('c-big'));
+});
+
+/* ── SCROLL REVEAL ── */
+const ro=new IntersectionObserver(es=>{
+  es.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('vis');
+      e.target.querySelectorAll('.reveal').forEach((c,i)=>{
+        setTimeout(()=>c.classList.add('vis'),i*65);
+      });
+    }
+  });
+},{threshold:.06});
+document.querySelectorAll('.section').forEach(s=>ro.observe(s));
+const ro2=new IntersectionObserver(es=>{
+  es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis')});
+},{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>ro2.observe(r));
+
+/* ── MOBILE NAV ── */
+function mobOpen(){document.getElementById('mobnav').classList.add('on')}
+function mobClose(){document.getElementById('mobnav').classList.remove('on')}
+
+/* ── PROJECT DATA ── */
+const projects={
+  train:{cat:'Feature Film · Tamil',title:'Train',year:'Upcoming',dir:'Mysskin',role:'Location Sound Recording · FX Recording · Sound Effects Assistant',desc:'An upcoming Tamil feature film by acclaimed director Mysskin. Athul served as Location Sound Recordist, capturing production dialogue and ambience on set, while also contributing to FX recording and sound effects assembly in post-production.',video:''},
+  malaikottai:{cat:'Feature Film · Malayalam',title:'Malaikottai Vaaliban',year:'2023',dir:'Lijo Jose Pellissery',role:'Location Sound Recording',desc:'A large-scale Malayalam epic by Lijo Jose Pellissery. Athul contributed production sound recording on location for this visually ambitious film.',video:''},
+  veekam:{cat:'Feature Film · Malayalam',title:'Veekam',dir:'Sagar Hari',role:'Location Sound Recording',desc:'Malayalam feature film directed by Sagar Hari. Athul handled location sound recording on set, ensuring clean dialogue and atmosphere capture throughout production.',video:''},
+  bola:{cat:'Feature Film · Malayalam',title:'Bola Golam',dir:'Muhammed Junaise Babu',role:'Location Sound Recording',desc:'A Malayalam feature film directed by Muhammed Junaise Babu. Athul was responsible for location sound recording during production.',video:''},
+  class:{cat:'Feature Film · Malayalam',title:'Class by a Soldier',dir:'Chinmayi Nair & Muhammed Junaise Babu',role:'Location Sound Recording',desc:'A co-directed Malayalam feature film. Athul managed location sound recording across the production schedule.',video:''},
+  machante:{cat:'Feature Film · Malayalam',title:'Machante Malakha',dir:'Boban Samuel',role:'Location Sound Recording',desc:'Malayalam feature directed by Boban Samuel. Athul provided professional location sound recording services during the film shoot.',video:''},
+  janvee:{cat:'Feature Film · Patch Shoot',title:'Janvee',role:'Location Sound Recording',desc:'Patch shoot contribution for the feature film Janvee, capturing supplementary production sound.',video:''},
+  kirukkan:{cat:'Feature Film · Patch Shoot',title:'Kirukkan',role:'Location Sound Recording',desc:'Patch shoot session for the feature film Kirukkan, handling location sound recording for additional photography.',video:''},
+  moonwalk:{cat:'Feature Film · Patch Shoot',title:'Moonwalk',role:'Location Sound Recording',desc:'Patch shoot contribution for the feature film Moonwalk, providing location sound recording during additional photography.',video:''},
+  purusha:{cat:'Feature Film · Patch Shoot',title:'Purusha Pretham',dir:'Krishand',role:'Location Sound Recording',desc:'Patch shoot session for the critically noted Malayalam film Purusha Pretham, directed by Krishand.',video:''},
+  chulli:{cat:'Short Film · 2025',title:'Chulli',year:'2025',role:'Sound Design · 5.1 Mix',desc:'A 2025 short film for which Athul delivered both a full sound design and a 5.1 surround mix, creating an immersive audio experience.',video:''},
+  themis:{cat:'Short Film · 2024',title:'Themis',year:'2024',dir:'Asish Anirudhan',role:'Sound Design',award:'Best Sound Design — OBM Short Film Festival',desc:"Award-winning short film directed by Asish Anirudhan. Athul's sound design was recognised with Best Sound Design at the OBM Short Film Festival.",video:'https://www.youtube.com/embed/ouKeAFKP3C4',thumb:'https://img.youtube.com/vi/ouKeAFKP3C4/maxresdefault.jpg'},
+  shavapetti:{cat:'Short Film · Unreleased',title:'Oru Shavapetti Kadha',dir:'Prathyush PV',role:'Sound Design',desc:'An unreleased short film directed by Prathyush PV, for which Athul designed the complete sound landscape.',video:'',thumb:''},
+  adyam:{cat:'Web Series Episode',title:'Adyam Joli Pinne Kalyanam – Ep. 2',dir:'Jisma Vimal',role:'Sound Design',desc:'Sound design for Episode 2 of this web series directed by Jisma Vimal.',video:'https://www.youtube.com/embed/DGD-j2WV-nA',thumb:'https://img.youtube.com/vi/DGD-j2WV-nA/maxresdefault.jpg'},
+  buoyant:{cat:'Short Documentary',title:'The Buoyant',role:'Sound Design · Mix',award:'IDSFFK Best Campus Film',desc:'A short documentary that earned the Best Campus Film award at IDSFFK. Athul handled both sound design and final mix.',video:'https://www.youtube.com/embed/MM3_ZuKbVjc',thumb:'https://img.youtube.com/vi/MM3_ZuKbVjc/maxresdefault.jpg'},
+  mazha:{cat:'Short Film · SIFA',title:'Mazha',dir:'Rishi Sivakumar',role:'Sound Design',desc:'A SIFA short film directed by Rishi Sivakumar. Athul created the sound design, shaping its sonic identity.',video:'https://www.youtube.com/embed/pzM0fDM7bzw',thumb:'https://img.youtube.com/vi/pzM0fDM7bzw/maxresdefault.jpg'},
+  bgaa:{cat:'Short Film · SIFA',title:'Be A Good Actor',dir:'Sajan Aloomoottil',role:'Sound Design',desc:'A SIFA short film directed by Sajan Aloomoottil. Athul designed the sound, building a distinctive audio world.',video:'https://www.youtube.com/embed/aNReF9YVQo8',thumb:'https://img.youtube.com/vi/aNReF9YVQo8/maxresdefault.jpg'},
+  tvsking:{cat:'Commercial · TVC',title:'TVS King – Journeys With King',role:'Recording',desc:'Commercial recording for TVS King — capturing clean production audio for this brand campaign by TVS Motor Company.',video:'https://www.youtube.com/embed/ukFt5mO0hSM',thumb:'https://img.youtube.com/vi/ukFt5mO0hSM/maxresdefault.jpg'},
+  swargam:{cat:'Feature Film · FX Recording',title:'Swargam',year:'2024',role:'FX Recording',desc:'FX recording contribution for the 2024 Malayalam feature film Swargam.',video:'',thumb:''},
+  chimera:{cat:'Short Film · FX Recording',title:'Chimera',year:'2023',role:'FX Recording',desc:'FX recording for the 2023 short film Chimera — capturing bespoke sound effects for post-production.',video:''},
+};
+
+function openModal(id){
+  const p=projects[id];if(!p)return;
+  let html=`
+    <div class="modal-poster"><div class="modal-poster-ph">${p.title[0]}</div></div>
+    <div class="modal-body">
+      <div class="modal-cat">${p.cat||''}</div>
+      <div class="modal-title">${p.title}</div>
+      <div class="modal-meta">
+        ${p.year?`<div class="mm-row"><span class="mm-k">Year</span><span class="mm-v">${p.year}</span></div>`:''}
+        ${p.dir?`<div class="mm-row"><span class="mm-k">Director</span><span class="mm-v">${p.dir}</span></div>`:''}
+        <div class="mm-row"><span class="mm-k">Role</span><span class="mm-v">${p.role}</span></div>
+      </div>
+      ${p.award?`<div class="modal-award"><div class="modal-award-icon">◈</div><p>🏆 ${p.award}</p></div>`:''}
+      <p class="modal-desc">${p.desc}</p>
+      <div class="modal-video">
+        <h4>Trailer / Clip</h4>
+        <div class="video-embed">
+          ${p.video?`<iframe src="${p.video}" allowfullscreen></iframe>`:`<span class="video-ph">Add YouTube embed URL in projects['${id}'].video to enable trailer</span>`}
+        </div>
+      </div>
+      <div class="modal-hint">
+        Add poster image: replace modal-poster-ph with &lt;img src="poster.jpg"&gt;<br>
+        Add trailer: set projects['${id}'].video = 'https://youtube.com/embed/VIDEO_ID'
+      </div>
+    </div>`;
+  document.getElementById('modalContent').innerHTML=html;
+  document.getElementById('modalWrap').classList.add('on');
+  document.body.style.overflo
